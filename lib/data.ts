@@ -33,17 +33,23 @@ export async function fetchTitles(
     ).map((row) => row.title_id);
 
     //Fetch titles
-    const titles = await db
+    let queryBuilder = db
       .selectFrom("titles")
       .selectAll("titles")
       .where("titles.released", ">=", minYear)
       .where("titles.released", "<=", maxYear)
-      .where("titles.title", "ilike", `%${query}%`)
-      .where("titles.genre", "in", genres)
+      .where("titles.title", "ilike", `%${query}%`);
+
+    if (genres.length > 0) {
+      queryBuilder = queryBuilder.where("titles.genre", "in", genres);
+    }
+
+    const titles = await queryBuilder
       .orderBy("titles.title", "asc")
       .limit(6)
       .offset((page - 1) * 6)
       .execute();
+
 
     return titles.map((row) => ({
       ...row,

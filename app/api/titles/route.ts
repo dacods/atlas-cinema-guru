@@ -25,7 +25,12 @@ export const GET = auth(async (req: NextRequest) => {
     ? Number(params.get("maxYear"))
     : new Date().getFullYear();
   const query = params.get("query") ?? "";
-  const genres = params.get("genres")?.split(",") ?? (await fetchGenres());
+  const genresRaw = params.get("genres");
+  const genres = genresRaw ? genresRaw.split(",").filter(Boolean) : [];
+
+  
+
+  console.log("📦 API called with:", { page, minYear, maxYear, query, genres, email });
 
   const title = await fetchTitles(page, minYear, maxYear, query, genres, email);
 
