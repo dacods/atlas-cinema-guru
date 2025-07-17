@@ -1,22 +1,35 @@
 "use client";
 
-import { useState } from "react";
-
 const genresList = [
   "Romance", "Horror", "Drama", "Action", "Mystery",
   "Fantasy", "Thriller", "Western", "Sci-Fi", "Adventure",
 ];
 
-export default function Filters() {
-  const [query, setQuery] = useState("");
-  const [minYear, setMinYear] = useState("1900");
-  const [maxYear, setMaxYear] = useState(new Date().getFullYear().toString());
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+type FiltersProps = {
+  query: string;
+  setQuery: (val: string) => void;
+  minYear: string;
+  setMinYear: (val: string) => void;
+  maxYear: string;
+  setMaxYear: (val: string) => void;
+  selectedGenres: string[];
+  setSelectedGenres: React.Dispatch<React.SetStateAction<string[]>>;
+};
 
+export default function Filters({
+  query,
+  setQuery,
+  minYear,
+  setMinYear,
+  maxYear,
+  setMaxYear,
+  selectedGenres,
+  setSelectedGenres,
+}: FiltersProps) {
   const toggleGenre = (genre: string) => {
-    setSelectedGenres((prev) =>
+    setSelectedGenres((prev: string[]) =>
       prev.includes(genre)
-        ? prev.filter((g) => g !== genre)
+        ? prev.filter((g: string) => g !== genre)
         : [...prev, genre]
     );
   };
