@@ -35,7 +35,7 @@ export default function Filters({
   };
 
   return (
-    <section className="bg-[#00135a] p-6 rounded-xl mb-6 text-white">
+    <section className="p-6 rounded-xl mb-6 text-white">
       <div className="flex flex-col md:flex-row justify-between gap-6">
         <div className="flex flex-col gap-4 max-w-[500px] w-full">
           <div>
@@ -45,7 +45,7 @@ export default function Filters({
               placeholder="Search Movies..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full rounded-full border border-cyan-400 px-4 py-2 bg-transparent text-white placeholder-cyan-300"
+              className="w-full rounded-full border border-cyan-400 px-4 py-2 bg-transparent text-white placeholder-grey"
             />
           </div>
           <div className="flex gap-4">
@@ -55,7 +55,7 @@ export default function Filters({
                 type="number"
                 value={minYear}
                 onChange={(e) => setMinYear(e.target.value)}
-                className="w-full rounded-full border border-cyan-400 px-4 py-2 bg-transparent text-white placeholder-cyan-300"
+                className="w-full rounded-full border border-cyan-400 px-4 py-2 bg-transparent text-white placeholder-grey"
               />
             </div>
             <div className="flex-1">
@@ -79,7 +79,7 @@ export default function Filters({
                 className={`px-3 py-1 rounded-full border ${
                   selectedGenres.includes(genre)
                     ? "bg-teal-300 text-black font-bold"
-                    : "border-cyan-300 text-cyan-300"
+                    : "border-cyan-300 text-white"
                 } transition`}
               >
                 {genre}

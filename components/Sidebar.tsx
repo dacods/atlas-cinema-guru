@@ -9,7 +9,7 @@ import star from "../public/star.png";
 
 type Activity = {
   id: string;
-  type: string;
+  activity: "FAVORITED" | "WATCH_LATER";
   title: string;
   timestamp: string;
 };
@@ -36,7 +36,6 @@ export default function Sidebar({ userEmail }: { userEmail: string }) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="p-4 flex flex-col items-start gap-4 text-white">
-        {/* Navigation */}
         <Link href="/" className="flex items-center gap-2">
           <Image src={folder} alt="Home" width={20} height={20} />
           {isHovered && <span>Home</span>}
@@ -49,19 +48,23 @@ export default function Sidebar({ userEmail }: { userEmail: string }) {
           <Image src={clock} alt="Watch Later" width={20} height={20} />
           {isHovered && <span>Watch Later</span>}
         </Link>
-
-        {/* Activity Feed */}
         {isHovered && (
-          <div className="mt-4 w-full text-black bg-teal-100 rounded-lg p-2">
-            <h3 className="text-center font-bold text-sm mb-2">
+          <div className="mt-4 w-full bg-teal-100 rounded-xl px-4 py-3 text-black">
+            <h3 className="text-sm font-semibold mb-3 text-center">
               Latest Activities
             </h3>
-            <ul className="text-xs max-h-[calc(100vh-200px)] overflow-y-auto">
+            <ul className="text-xs max-h-[calc(100vh-200px)] overflow-y-auto space-y-3">
               {activities.map((activity) => (
-                <li key={activity.id} className="mb-2">
-                  <div className="text-gray-700">{activity.timestamp}</div>
+                <li key={activity.id} className="leading-tight">
+                  <div className="text-gray-600 text-[10px]">
+                    {new Date(activity.timestamp).toLocaleString()}
+                  </div>
                   <div>
-                    {activity.type} <strong>{activity.title}</strong>
+                    {activity.activity === "FAVORITED" ? (
+                      <>Favorited <strong>{activity.title}</strong></>
+                    ) : (
+                      <>Added <strong>{activity.title}</strong> to watch later</>
+                    )}
                   </div>
                 </li>
               ))}

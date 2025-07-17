@@ -7,10 +7,27 @@ import { faStar as solidStar, faClock as solidClock } from "@fortawesome/free-so
 import { faStar as regularStar, faClock as regularClock } from "@fortawesome/free-regular-svg-icons";
 
 export default function MovieCard({ movie }: { movie: any }) {
-    console.log("MovieCard received:", movie);
   const [isFavorited, setIsFavorited] = useState<boolean>(movie.favorited);
   const [isWatchLater, setIsWatchLater] = useState<boolean>(movie.watchLater);
   const [hovered, setHovered] = useState(false);
+
+  const toggleFavorite = async () => {
+    const method = isFavorited ? "DELETE" : "POST";
+    await fetch(`/api/favorites/${movie.id}`, {
+      method,
+      credentials: "include",
+    });
+    setIsFavorited(!isFavorited);
+  };
+
+  const toggleWatchLater = async () => {
+    const method = isWatchLater ? "DELETE" : "POST";
+    await fetch(`/api/watch-later/${movie.id}`, {
+      method,
+      credentials: "include",
+    });
+    setIsWatchLater(!isWatchLater);
+  };
 
   return (
     <div
@@ -25,7 +42,7 @@ export default function MovieCard({ movie }: { movie: any }) {
         height={600}
         unoptimized
         className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-        />
+      />
 
       <div
         className={`absolute top-2 right-2 z-10 flex gap-2 transition-opacity duration-300 ${
@@ -33,18 +50,19 @@ export default function MovieCard({ movie }: { movie: any }) {
         }`}
       >
         <button
-          onClick={() => setIsFavorited((prev) => !prev)}
+          onClick={toggleFavorite}
           className="text-white drop-shadow"
         >
           <FontAwesomeIcon icon={isFavorited ? solidStar : regularStar} />
         </button>
         <button
-          onClick={() => setIsWatchLater((prev) => !prev)}
+          onClick={toggleWatchLater}
           className="text-white drop-shadow"
         >
           <FontAwesomeIcon icon={isWatchLater ? solidClock : regularClock} />
         </button>
       </div>
+
       <div
         className={`absolute bottom-0 left-0 right-0 transition-all duration-300 bg-[#00135a] text-white px-4 py-4 ${
           hovered ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
